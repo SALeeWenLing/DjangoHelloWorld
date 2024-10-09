@@ -1,24 +1,16 @@
-from datetime import datetime, timezone
+import json
 
-from django.db.transaction import commit
+from datetime import datetime, timezone
 from django.utils import timezone
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login as auth_login
-from .utils import update_sprint_statuses
-from .forms import CreateNewList, SprintForm, ThemeSettingsForm, RegisterForm, AdminUserChangeForm, StaffUserChangeForm, ModeSettingsForm
-from .models import Task, Sprint, ThemeSettings, ModeSettings
-from .forms import CreateNewList, SprintForm, ThemeSettingsForm, RegisterForm, AdminUserChangeForm, StaffUserChangeForm, \
-    TimeLogForm
-from .models import Task, Sprint, ThemeSettings, TimeLog
-from django.views import View
 from django.db.models import Case, When, IntegerField, Value
-import json
 from django.urls import reverse
 from django.http import JsonResponse
 from django.utils import timezone
@@ -28,6 +20,9 @@ from django.contrib import messages
 from django.urls import reverse_lazy
 from django.views.generic import DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from .utils import update_sprint_statuses
+from .forms import CreateNewList, SprintForm, ThemeSettingsForm, RegisterForm, AdminUserChangeForm, StaffUserChangeForm, ModeSettingsForm, TimeLogForm
+from .models import Task, Sprint, ThemeSettings, ModeSettings, TimeLog
 
 
 

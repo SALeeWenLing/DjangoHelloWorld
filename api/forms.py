@@ -1,14 +1,9 @@
-from functools import total_ordering
-
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
-from django.db.models import Sum
-
-from . import models
 from .models import Task, DevelopmentTag, Sprint, TimeLog
 from .models import ThemeSettings, THEME_CHOICES
 from .models import ModeSettings, MODE_CHOICES

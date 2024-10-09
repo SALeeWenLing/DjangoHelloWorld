@@ -1,6 +1,3 @@
-
-
-# utils.py
 from datetime import date
 from django.utils import timezone
 from api.models import Sprint
