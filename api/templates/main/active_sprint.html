@@ -1,0 +1,29 @@
+{% extends 'main/sprint_base.html' %}
+
+{% block title %}QuickNote • Active Sprint{% endblock %}
+
+{% block sprint_content %}
+    {% if user.is_authenticated %}
+        <div class="container active-sprint-page"> 
+            <div class="row">
+                <div class="col-md-4 custom-column">
+                    {%  with in_active_sprint=True %}
+                        {% include 'main/task_cards.html' with status='Not Started' %}
+                    {% endwith %}
+                </div>
+                <div class="col-md-4 custom-column">
+                    {%  with in_active_sprint=True %}
+                        {% include 'main/task_cards.html' with status='In Progress' %}
+                    {% endwith %}
+                </div>
+                <div class="col-md-4 custom-column completed-cards">
+                    {%  with in_active_sprint=True %}
+                        {% include 'main/task_cards.html' with status='Completed' %}
+                    {% endwith %}
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <h3>Login <a href="/login">Here</a></h3>
+    {% endif %}
+{% endblock %}

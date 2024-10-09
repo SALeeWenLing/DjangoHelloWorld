@@ -1,0 +1,78 @@
+{% extends 'main/sprint_base.html' %}
+
+{% block title %}QuickNote • Inactive Sprint{% endblock %}
+
+{% block sprint_status %}
+<p class = "sprint-status">Status: Not Started    </p>
+{% endblock %}
+
+{% block sprint_content %}
+    {% if user.is_authenticated %}
+        <table class="inactive_sprint">
+            <thead>
+                <tr>
+                    <th scope="col" class="{% if theme_settings %} 
+                           {% if theme_settings.theme == 'bubblegum' %}
+                               header-bubblegum
+                           {% elif theme_settings.theme == 'ocean' %}
+                               header-ocean
+                           {% elif theme_settings.theme == 'nature' %}
+                               header-nature
+                           {% else %}
+                               header-wolverine
+                           {% endif %}
+                        {% endif %}
+                    ">Product Backlog</th>
+
+                    <th scope="col" class="{% if theme_settings %} 
+                            {% if theme_settings.theme == 'bubblegum' %}
+                                header-bubblegum-sprint
+                            {% elif theme_settings.theme == 'ocean' %}
+                                header-ocean-sprint
+                            {% elif theme_settings.theme == 'nature' %}
+                                header-nature-sprint
+                            {% else %}
+                                header-wolverine-sprint
+                            {% endif %}
+                        {% endif %}
+                    ">Sprint Backlog</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td valign="top">
+                        <div class="container active-sprint-page">
+                            <div class="row">
+                                <div class="col-md-6 custom-column">
+                                    {% with show_add_button=True sprint_name=sprint.sprint_name%}
+                                        {% include 'main/task_cards.html' with show_status_header='False' inactive_PB='True'%}
+                                    {% endwith %}
+
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td valign="top">
+                        <div class="container active-sprint-page">
+                            <div class="row">
+                                <div class="col-md-12 custom-column" >
+<!--                                    <p>Add Sprint Backlog items</p>-->
+                                    {% with show_add_button=True sprint_name=sprint.sprint_name in_sprint_backlog=True %}
+                                        {% include 'main/task_cards.html' with show_status_header='False' %}
+                                    {% endwith %}
+
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+
+
+
+        </table>
+    {% else %}
+        <h3>Login <a href="/login">Here</a></h3>
+    {% endif %}
+{% endblock %}

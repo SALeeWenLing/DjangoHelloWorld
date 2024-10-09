@@ -1,0 +1,18 @@
+{% extends 'main/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}QuickNote • Edit User{% endblock %}
+
+{% block pagetitle %}User: {{ user.username }}{% endblock%}
+
+{% block content %}
+    <div class="content-section">
+        <form method="POST" class="form-group">
+            {% csrf_token %}
+            <br>
+            <legend class="border-bottom mb-3">Edit User Details</legend>
+            {{ form|crispy }}
+            <button type="submit" class="btn btn-success">Save Changes</button>
+        </form>
+    </div>
+{% endblock %}

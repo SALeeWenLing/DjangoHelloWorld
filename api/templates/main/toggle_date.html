@@ -1,0 +1,23 @@
+<!-- toggle_date.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Date</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Select Date</h2>
+        <form method="post" action="{% url 'toggle_sprint_date' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="selected_date">Select Date:</label>
+                <input type="date" id="selected_date" name="selected_date" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Update Date</button>
+        </form>
+    </div>
+</body>
+</html>

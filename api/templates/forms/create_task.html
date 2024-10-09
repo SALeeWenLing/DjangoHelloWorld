@@ -1,0 +1,135 @@
+<!-- create_task.html -->
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}{% if action == "create" %}QuickNote • Create New Task{% else %}Update Task{% endif %}{% endblock %}
+
+{% block pagetitle %}{% if action == "create" %}Create a New Task{% else %}Update Task{% endif %}{% endblock%}
+
+{% block content %}
+<!-- Top navigation -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTopNav" aria-controls="navbarTopNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarTopNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                {% if user.is_authenticated%}
+                    <!-- Show history button only if updating a task -->
+                    {% if action == "update" %}
+                    <div class="nav-link">
+                        <button class="btn btn-light" type="button" data-id="{{ task.id }}" onclick="viewHistory({{task.id}}) ">
+                            <i class="fa fa-history" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    {% endif %}
+                {% endif %}
+            </li>
+        </ul>
+    </div>
+</nav>
+
+
+<div id="mySidebar" class="sidebar">
+    <div class="task-buttons">
+        <button onclick="closeHistory()" class="closebtn" style="position: absolute; top: 0; right: 0;">
+            <i class="fas fa-times"></i> <!-- Font Awesome X icon -->
+        </button>
+    </div>
+    <h5 style="padding-left: 25px; text-decoration: underline;">Edit History</h5>
+    <div id="taskHistoryPanel"></div>
+</div>
+  
+
+<div class="container mt-5">
+    <form method="post">
+        {% csrf_token %}
+
+        {% if user.is_superuser or user.is_staff %}
+            {% for field in form %}
+                <div class="form-group row custom-row-spacing">
+                    <label for="{{ field.id_for_label }}" class="col-sm-3 col-form-label align-self-start">{{ field.label }}</label>
+                    <div class="col-sm-9">
+                        {% if field.widget.attrs.class == 'form-check-input' %}
+                            {{ field }}
+                        {% else %}
+                            {{ field }}
+                        {% endif %}
+                        {% if field.help_text %}
+                            <small class="form-text text-muted">{{ field.help_text }}</small>
+                        {% endif %}
+                        {% for error in field.errors %}
+                            <div class="invalid-feedback">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+
+        {% else %}
+            {% for field in form %}
+                <div class="form-group row custom-row-spacing">
+                    <label for="{{ field.id_for_label }}" class="col-sm-3 col-form-label align-self-start">{{ field.label }}</label>
+                    <div class="col-sm-9">
+                        {% if field.name == 'status' %}
+                            {{ field }}
+                        {% elif field.name == 'assignee' %}
+                            <p class="form-control-plaintext">
+                                {{ form.instance.assignee.username }}
+                                <input type="hidden" name="assignee" value="{{ form.instance.assignee.id }}">
+                            </p>
+                        {% elif field.name == 'development_tag' %}
+                            <p class="form-control-plaintext">
+                                {% for tag in form.instance.development_tag.all %}
+                                    {{ tag.name }}{% if not forloop.last %}, {% endif %}
+                                    <input type="hidden" name="development_tag" value="{{ tag.id }}">
+                                {% endfor %}
+                            </p>
+                        {% else %}
+                            <p class="form-control-plaintext">{{ field.value }}</p>
+                            <input type="hidden" name="{{ field.name }}" value="{{ field.value }}"> 
+                        {% endif %}
+                        
+                        {% if field.help_text %}
+                            <small class="form-text text-muted">{{ field.help_text }}</small>
+                        {% endif %}
+                        {% for error in field.errors %}
+                            <div class="invalid-feedback">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    
+        
+
+    
+        {% if not isCreate %}
+            <h2 class="mt-5" >Time Log</h2>
+            {% for field in timelog_form %}
+                <div class="form-group row custom-row-spacing">
+                    <label for="{{ field.id_for_label }}" class="col-sm-3 col-form-label align-self-start">{{ field.label }}</label>
+                    <div class="col-sm-9">
+                        {{ field }}
+                        {% if field.help_text %}
+                            <small class="form-text text-muted">{{ field.help_text }}</small>
+                        {% endif %}
+                        {% for error in field.errors %}
+                            <div class="invalid-feedback">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+
+        <!-- Create Task / Save / Cancel Buttons -->
+        <div class="form-group row mt-4 custom-button-spacing text-right">
+            <div class="col-sm-12">
+                <button type="submit" class="btn button-deadpool-red">{% if action == "create" %}Create Task{% else %}Save{% endif %}</button>
+                <button type="button" class="btn btn-secondary" onclick="window.history.back()">Cancel</button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

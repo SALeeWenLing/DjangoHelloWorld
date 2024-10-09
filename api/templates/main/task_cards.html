@@ -1,0 +1,306 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Cards</title>
+    <link rel="stylesheet" href="{% static 'css/task_cards.css' %}"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Include Font Awesome for X delet button -->
+</head>
+<body>
+
+<!-- task_cards.html -->
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Cards</title>
+    <link rel="stylesheet" href="{% static 'css/task_cards.css' %}">
+</head>
+<body>
+
+<!-- task_cards.html -->
+<div class="col-md-4">
+    {% if show_status_header != "False" %}
+        <h3 class="task-status-header">{{ status }}</h3>
+    {% endif %}
+
+        {% for task in tasks %}
+        <!-- Sprint Backlog for inactive sprints which require no separation of tasks based on status -->
+        {% if in_sprint_backlog %}
+            {% if sprint_name == task.sprint.sprint_name%}
+            <li class="list-group-item task-link task-card" data-id="{{ task.id }}" ondblclick="updateTask({{ task.id }})">
+                        <div class="task-content">
+                            <h4>{{ task.task_name }}</h4>
+                            <table class="task-table">
+
+                                <tr>
+                                    <td class="label-cell">Story Point:</td>
+                                    <td>{{ task.story_point }}</td>
+                                </tr>
+
+                                <tr>
+                                    <td class="label-cell">Priority:</td>
+                                    <td id="priority-view-{{ task.id }}" class="priority">
+                                        {{ task.get_priority_display }}
+                                    </td>
+                                    <td>
+                                        <select id="priority-edit-{{ task.id }}" data-field="priority" data-id="{{ task.id }}" class="editable-field" style="display: none;">
+                                            <option value="low" {% if task.priority == 'low' %}selected{% endif %}>Low</option>
+                                            <option value="medium" {% if task.priority == 'medium' %}selected{% endif %}>Medium</option>
+                                            <option value="important" {% if task.priority == 'important' %}selected{% endif %}>Important</option>
+                                            <option value="urgent" {% if task.priority == 'urgent' %}selected{% endif %}>Urgent</option>
+                                        </select>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="label-cell">Development Tag:</td>
+                                    <td class="details-cell">
+                                        {% for tag in task.development_tag.all %}
+                                            {{ tag.name }}{% if not forloop.last %}, {% endif %}
+                                        {% empty %}
+                                            None
+                                        {% endfor %}
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <p>
+                                        Date of creation:
+                                        {% if task.created_at %}
+                                            {{ task.created_at }}
+                                        {% else %}
+                                            Not available
+                                        {% endif %}
+                                    </p>
+                                </tr>
+                                    <td>(TO TEST) Sprint:</td>
+
+                                    <td colspan="2">{{ task.sprint }} {{status}}</td>
+                                <tr>
+                            </table>
+                        </div>
+                        <!-- Remove task from sprint -->
+                        <div class="task-buttons">
+                            {% if user.is_superuser or user.is_staff %}
+                                <button onclick="addTaskToSprint({{ task.id}},  '{{ sprint_name }}', true)" class="btn btn-delete" style="position: absolute; top: 0; right: 0;">
+                                    <i class="fas fa-arrow-left"></i> <!-- Font Awesome <- icon -->
+                                </button>
+                            {% endif %}
+                        </div>
+                    </li>
+                {% endif %}
+        <!-- Product Backlog for sprints which require separation of tasks based on status -->
+            {% elif in_main_product_backlog and task.status == status%}
+                 <li class="list-group-item task-link task-card" data-id="{{ task.id }}" ondblclick="updateTask({{ task.id }})">
+                        <div class="task-content">
+                            <h4>{{ task.task_name }}</h4>
+                            <table class="task-table">
+
+                                <tr>
+                                    <td class="label-cell">Story Point:</td>
+                                    <td>{{ task.story_point }}</td>
+                                </tr>
+
+                                <tr>
+                                    <td class="label-cell">Priority:</td>
+                                    <td id="priority-view-{{ task.id }}" class="priority">
+                                        {{ task.get_priority_display }}
+                                    </td>
+                                    <td>
+                                        <select id="priority-edit-{{ task.id }}" data-field="priority" data-id="{{ task.id }}" class="editable-field" style="display: none;">
+                                            <option value="low" {% if task.priority == 'low' %}selected{% endif %}>Low</option>
+                                            <option value="medium" {% if task.priority == 'medium' %}selected{% endif %}>Medium</option>
+                                            <option value="important" {% if task.priority == 'important' %}selected{% endif %}>Important</option>
+                                            <option value="urgent" {% if task.priority == 'urgent' %}selected{% endif %}>Urgent</option>
+                                        </select>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="label-cell">Development Tag:</td>
+                                    <td class="details-cell">
+                                        {% for tag in task.development_tag.all %}
+                                            {{ tag.name }}{% if not forloop.last %}, {% endif %}
+                                        {% empty %}
+                                            None
+                                        {% endfor %}
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <p>
+                                        Date of creation:
+                                        {% if task.created_at %}
+                                            {{ task.created_at }}
+                                        {% else %}
+                                            Not available
+                                        {% endif %}
+                                    </p>
+                                </tr>
+                                    <td>(TO TEST) Sprint:</td>
+
+                                    <td colspan="2">{{ task.sprint }} {{status}}</td>
+                                <tr>
+                            </table>
+                        </div>
+                        {% if user.is_superuser or user.is_staff %}
+                        <div class="task-buttons">
+                            <button onclick="deleteTask({{ task.id }})" class="btn btn-delete" style="position: absolute; top: 0; right: 0;">
+                                    <i class="fas fa-times"></i> <!-- Font Awesome X icon -->
+                            </button>
+                        </div>
+                        {% endif %}
+
+                    </li>
+        <!-- Active sprint view with the 3 columns for statuses, and only shows tasks for that sprint -->
+            {% elif in_active_sprint %}
+                {% if task.status == status  %}
+                    <li class="list-group-item task-link task-card" data-id="{{ task.id }}" ondblclick="updateTask({{ task.id }})">
+                        <div class="task-content">
+                            <h4>{{ task.task_name }}</h4>
+                            <table class="task-table">
+
+                                <tr>
+                                    <td class="label-cell">Story Point:</td>
+                                    <td>{{ task.story_point }}</td>
+                                </tr>
+
+                                <tr>
+                                    <td class="label-cell">Priority:</td>
+                                    <td id="priority-view-{{ task.id }}" class="priority">
+                                        {{ task.get_priority_display }}
+                                    </td>
+                                    <td>
+                                        <select id="priority-edit-{{ task.id }}" data-field="priority" data-id="{{ task.id }}" class="editable-field" style="display: none;">
+                                            <option value="low" {% if task.priority == 'low' %}selected{% endif %}>Low</option>
+                                            <option value="medium" {% if task.priority == 'medium' %}selected{% endif %}>Medium</option>
+                                            <option value="important" {% if task.priority == 'important' %}selected{% endif %}>Important</option>
+                                            <option value="urgent" {% if task.priority == 'urgent' %}selected{% endif %}>Urgent</option>
+                                        </select>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="label-cell">Development Tag:</td>
+                                    <td class="details-cell">
+                                        {% for tag in task.development_tag.all %}
+                                            {{ tag.name }}{% if not forloop.last %}, {% endif %}
+                                        {% empty %}
+                                            None
+                                        {% endfor %}
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <p>
+                                        Date of creation:
+                                        {% if task.created_at %}
+                                            {{ task.created_at }}
+                                        {% else %}
+                                            Not available
+                                        {% endif %}
+                                    </p>
+                                </tr>
+                                    <td>(TO TEST) Sprint:</td>
+
+                                    <td colspan="2">{{ task.sprint }} {{status}}</td>
+                                <tr>
+                            </table>
+                        </div>
+
+                        <div class="task-buttons">
+                            <button onclick="deleteTask({{ task.id }})" class="btn btn-delete" style="position: absolute; top: 0; right: 0;">
+                                    <i class="fas fa-times"></i> <!-- Font Awesome X icon -->
+                                </button>
+                            
+
+                        </div>
+                    </li>
+
+                {% endif %}
+
+            {% elif inactive_PB %}
+        <!-- Product Backlog for inactive sprints -->
+                {% if task.sprint is None %}
+                    <li class="list-group-item task-link task-card" data-id="{{ task.id }}" ondblclick="updateTask({{ task.id }})">
+                        <div class="task-content">     
+                            <h4>{{ task.task_name }}</h4>
+                            <table class="task-table">
+
+                                <tr>
+                                    <td class="label-cell">Story Point:</td>
+                                    <td>{{ task.story_point }}</td>
+                                </tr>
+
+                                <tr>
+                                    <td class="label-cell">Priority:</td>
+                                    <td id="priority-view-{{ task.id }}" class="priority">
+                                        {{ task.get_priority_display }}
+                                    </td>
+                                    <td>
+                                        <select id="priority-edit-{{ task.id }}" data-field="priority" data-id="{{ task.id }}" class="editable-field" style="display: none;">
+                                            <option value="low" {% if task.priority == 'low' %}selected{% endif %}>Low</option>
+                                            <option value="medium" {% if task.priority == 'medium' %}selected{% endif %}>Medium</option>
+                                            <option value="important" {% if task.priority == 'important' %}selected{% endif %}>Important</option>
+                                            <option value="urgent" {% if task.priority == 'urgent' %}selected{% endif %}>Urgent</option>
+                                        </select>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="label-cell">Development Tag:</td>
+                                    <td class="details-cell">
+                                        {% for tag in task.development_tag.all %}
+                                            {{ tag.name }}{% if not forloop.last %}, {% endif %}
+                                        {% empty %}
+                                            None
+                                        {% endfor %}
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <p>
+                                        Date of creation:
+                                        {% if task.created_at %}
+                                            {{ task.created_at }}
+                                        {% else %}
+                                            Not available
+                                        {% endif %}
+                                    </p>
+                                </tr>
+                                    <td>(TO TEST) Sprint:</td>
+
+                                    <td colspan="2">{{ task.sprint }}</td>
+                                <tr>
+
+
+                            </table>
+                        </div>
+
+                        <div class="task-buttons">
+                            {% if user.is_superuser or user.is_staff %}
+                                    <button onclick="addTaskToSprint({{ task.id}}, '{{ sprint_name }}', false) " class="btn btn-delete" style="position: absolute; top: 0; right: 0">
+                                        <i class="fa fa-arrow-right" aria-hidden="true"></i> <!-- Font Awesome -> icon -->
+                                    </button>
+                            {% endif %}
+                        </div>
+                    </li>     
+                {% endif %}
+            {% endif %}
+
+        {% endfor %}
+
+</div>
+
+<!-- JavaScript file -->
+<script src="{% static 'js/task_management.js' %}"></script>
+
+</body>
+</html>

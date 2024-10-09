@@ -1,0 +1,90 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+
+<!-- Side navigation -->
+{% block sidenav_class %}
+    {% if theme_settings %}
+        {% if theme_settings.theme == 'bubblegum' %}
+            sidenav-bubblegum-sprint
+        {% else %}
+        sidenav-wolverine
+        {% endif %}
+    {% else %}
+    sidenav-wolverine
+    {% endif %}
+{% endblock %}
+<!-- Banner Image -->
+{% block header_image %}
+    {% if theme_settings %}
+        {% if theme_settings.theme == 'bubblegum' %}
+            <img src="{% static 'images/bubblegum_sprint.png' %}" height="250" width="auto" class="banner-image">
+        {% else %}
+            <img src="{% static 'images/banner_wolverine.png' %}" height="250" width="auto" class="banner-image">
+        {% endif %}
+    {% else %}
+    <img src="{% static 'images/banner_wolverine.png' %}" height="250" width="auto" class="banner-image">
+    {% endif %}
+{% endblock %}
+
+{% block pagetitle %}Edit Sprint{% endblock%}
+
+
+{% block content %}
+<div class="container mt-5">
+    <form method="post" id="sprintForm">
+        {% csrf_token %}
+
+        {% for field in form %}
+            <div class="form-group row custom-row-spacing">
+                <label for="{{ field.id_for_label }}" class="col-sm-3 col-form-label align-self-start">{{ field.label }}</label>
+                <div class="col-sm-9">
+                    {% if field.widget.attrs.class == 'form-check-input' %}
+                        {{ field }}
+                    {% else %}
+                        {{ field }}
+                    {% endif %}
+                    {% if field.help_text %}
+                        <small class="form-text text-muted">{{ field.help_text }}</small>
+                    {% endif %}
+                    {% for error in field.errors %}
+                        <div class="invalid-feedback">{{ error }}</div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+
+        <!-- Create Task / Save / Cancel Buttons -->
+        <div class="form-group row mt-4 custom-button-spacing text-right">
+            <div class="col-sm-12">
+                <button type="submit" class="btn button-deadpool-red">Save</button>
+                <button type="button" class="btn btn-secondary" onclick="window.history.back()">Cancel</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="invalidDateModal" tabindex="-1" role="dialog" aria-labelledby="invalidDateModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="invalidDateModalLabel">Invalid Date</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                End date must be at least one day after the start date.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/sprint_dashboard.js' %}"></script>
+{% endblock %}

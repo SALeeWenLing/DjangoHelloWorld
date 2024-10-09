@@ -1,0 +1,41 @@
+/* Reduce gap between columns */
+.custom-column {
+    padding-left: 50px; /* Adjust as needed */
+    padding-right: 50px; /* Adjust as needed */
+}
+
+
+/* Header Styles */
+.header-wolverine {
+    background-color: #ffee00; /* Light yellow for Wolverine theme */
+}
+
+.header-bubblegum {
+    background-color: #ffc7cf; /* Pink for Bubblegum theme */
+}
+
+.header-ocean {
+    background-color: #44c0f0;
+}
+
+.header-nature {
+    background-color: #98e131; /* Green for Nature theme */
+}
+
+/* You can create specific styles for the 'Sprint Backlog' header if needed */
+.header-wolverine-sprint {
+    background-color: #ffb400; /* Same or different color for Sprint Backlog */
+}
+
+.header-bubblegum-sprint {
+    background-color: #ffadb1;
+}
+
+.header-ocean-sprint {
+    background-color: #10b4f5; /* Blue for Ocean theme */
+}
+
+.header-nature-sprint {
+    background-color: #78cd01;
+}
+

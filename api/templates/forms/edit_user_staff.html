@@ -1,0 +1,35 @@
+{% extends 'main/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}QuickNote • Edit User{% endblock %}
+
+{% block pagetitle %}Team member: {{ user.username }}{% endblock%}
+
+{% block content %}
+
+    <!-- Display Messages -->
+    <div class="container">
+        {% for message in messages %}
+            <div class="alert alert-danger" role="alert">
+                <i class="fa fa-exclamation-circle" aria-hidden="true"></i> {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+    
+    <div class="content-section">
+        <form method="POST" class="form-group">
+            {% csrf_token %}
+            <br>
+            <legend class="border-bottom mb-3">Edit User Details</legend>
+            {{ form.username|as_crispy_field }}
+            {{ form.email|as_crispy_field }}
+            <br>
+            <legend class="border-bottom mb-3">Reset Password</legend>
+            {{ form.old_password|as_crispy_field }}
+            {{ form.new_password1|as_crispy_field }}
+            {{ form.new_password2|as_crispy_field }}
+            <br>
+            <button type="submit" class="btn btn-success">Save Changes</button>
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'main/sprint_base.html' %}
+
+{% block title %}QuickNote • Completed Sprint{% endblock %}
+
+{% block sprint_content %}
+    {% if user.is_authenticated %}
+    <div class="completed-cards">
+        {% include 'main/task_cards_3inrow.html' with status='Completed' %}
+    </div>
+    {% else %}
+    <h3>Login <a href="/login">Here</a></h3>
+    {% endif %}
+{% endblock %}

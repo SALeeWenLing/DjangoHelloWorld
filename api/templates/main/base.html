@@ -1,0 +1,192 @@
+{% load static %}
+<!DOCTYPE html>
+{% comment %} <html lang="en"> {% endcomment %}
+<html lang="en" data-theme="{% if mode_settings %}{{ mode_settings.mode }}{% else %}light{% endif %}">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Link to external CSS file -->
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+    <link rel="stylesheet" href="{% static 'css/product_backlog.css' %}">
+    <link rel="stylesheet" href="{% static 'css/sprint_dashboard.css' %}">
+    <link rel="stylesheet" href="{% static 'css/task_cards.css' %}"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+      <!-- Conditionally load dark mode CSS -->
+      {% if mode_settings and mode_settings.mode == 'dark' %}
+      <link rel="stylesheet" href="{% static 'css/dark_mode.css' %}">
+      {% endif %}
+
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    
+    <!-- Include Bootstrap Icons CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.5.0/font/bootstrap-icons.min.css">
+
+    
+    <title>{% block title %}QuickNote{% endblock %}</title>
+
+</head>
+
+
+
+
+
+<body>
+
+
+  <!-- Notification Modal -->
+  <div class="modal fade" id="notificationModal" tabindex="-1" role="dialog" aria-labelledby="notificationModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="notificationModalLabel">Notification</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="notificationMessage" style="text-align: center;">
+                <!-- Notification message will be inserted here -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+  </div>
+
+  <!-- Confirmation Modal -->
+  <div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmationModalLabel">Confirmation</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="confirmationMessage" style="text-align: center;">
+                <!-- Confirmation message will be inserted here -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="confirmButton">Confirm</button>
+            </div>
+        </div>
+    </div>
+  </div>
+  
+  
+  <!-- Side navigation -->
+  <div class="sidenav {% block sidenav_class %}
+  
+  <!-- Side navigation -->
+    {% if theme_settings %}
+        {% if theme_settings.theme == 'bubblegum' %}
+            sidenav-bubblegum
+        {% elif theme_settings.theme == 'ocean' %}
+            sidenav-ocean
+        {% elif theme_settings.theme == 'nature' %}
+            sidenav-nature
+        {% else %}
+            sidenav-deadpool
+        {% endif %} 
+    {% else %}
+    sidenav-deadpool
+    {% endif %}
+
+  {% endblock %}">
+    {% block sidenav %}
+    <h3>Content</h3>
+    <hr class="sidenav-divider">
+    <a href="/">About Us</a>
+    <a href="/product_backlog">Product Backlog</a>
+    <a href="/sprint_dashboard">Sprint Dashboard</a>
+    <a href="/team_dashboard">Team Dashboard</a>
+    {% comment %} <a href="/theme_settings">Theme Settings</a> {% endcomment %}
+    {% endblock %}
+  </div>
+
+  <!-- Header -->
+  <div class="header">
+    {% block header_image %}
+      {% if theme_settings %}
+        {% if theme_settings.theme == 'bubblegum' %}
+            <img src="{% static 'images/bubblegum.png' %}" height="250" width="auto" class="banner-image">
+        {% elif theme_settings.theme == 'ocean' %}
+            <img src="{% static 'images/ocean.png' %}" height="250" width="auto" class="banner-image">  
+        {% elif theme_settings.theme == 'nature' %}
+            <img src="{% static 'images/nature.png' %}" height="250" width="auto" class="banner-image">            
+        {% else %}
+            <img src="{% static 'images/banner_dp.png' %}" height="250" width="auto" class="banner-image">
+        {% endif %}
+      {% else %}
+        <img src="{% static 'images/banner_dp.png' %}" height="250" width="auto" class="banner-image">
+      {% endif %}
+
+
+    {% endblock %}
+    <div class="header_text">QuickNote</div>
+  </div>
+
+  <!-- Authentication links -->
+  <div class="auth-links">
+    {% if user.is_authenticated %}
+        <span>{{ user.username }} &nbsp;&nbsp; | </span>
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-link">Logout</button>
+        </form>
+    {% else %}
+        <a href="{% url 'login' %}" class="btn btn-link">Login</a>
+    {% endif %}
+    <a href="{% url 'theme_settings' %}" class="btn btn-light">
+      <i class="fas fa-cog"></i>
+    </a>
+
+  </div>
+
+  <!-- Page content -->
+    <div class="main">
+      <div class="row justify-content-start">
+        <div class="col-8">
+          <h1 class="mt-2">{% block pagetitle %}Agile Project Manager{% endblock%}</h1>
+          <hr class="mt-0">
+            <!-- Debug statement to check context variables -->
+            <p>Theme: {{ theme_settings.theme }}</p>
+            <p>Mode: {{ mode_settings.mode }}</p>
+          {% block content %}
+
+          {% endblock %}
+
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <!-- Include the js file -->
+    <script src="{% static 'js/base.js' %}"></script>
+    <script src="{% static 'js/task_sort.js' %}"></script>
+    <script src="{% static 'js/task_filter.js' %}"></script>
+    <script src="{% static 'js/task_management.js' %}"></script> 
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
+
+
+
+
+
+
+
+
+

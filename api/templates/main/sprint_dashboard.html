@@ -1,0 +1,220 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}QuickNote • Sprint Dashboard{% endblock %}
+
+{% block extra_css %}
+{% endblock %}
+
+<!-- Side navigation -->
+{% block sidenav_class %}
+    {% if theme_settings %}
+        {% if theme_settings.theme == 'bubblegum' %}
+            sidenav-bubblegum
+        {% elif theme_settings.theme == 'ocean' %}
+            sidenav-ocean
+        {% elif theme_settings.theme == 'nature' %}
+            sidenav-nature
+        {% else %}
+        sidenav-wolverine
+        {% endif %}
+    {% else %}
+    sidenav-wolverine
+    {% endif %}
+{% endblock %}
+<!-- Banner Image -->
+{% block header_image %}
+    {% if theme_settings %}
+        {% if theme_settings.theme == 'bubblegum' %}
+            <img src="{% static 'images/bubblegum.png' %}" height="250" width="auto" class="banner-image">
+        {% elif theme_settings.theme == 'ocean' %}
+            <img src="{% static 'images/ocean.png' %}" height="250" width="auto" class="banner-image">   
+        {% elif theme_settings.theme == 'nature' %}
+            <img src="{% static 'images/nature.png' %}" height="250" width="auto" class="banner-image">
+        {% else %}
+            <img src="{% static 'images/banner_wolverine.png' %}" height="250" width="auto" class="banner-image">
+        {% endif %}
+    {% else %}
+    <img src="{% static 'images/banner_wolverine.png' %}" height="250" width="auto" class="banner-image">
+    {% endif %}
+{% endblock %}
+
+{% block pagetitle %}Sprint Dashboard{% endblock%}
+
+{% block content %}
+
+<!-- Top navigation -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTopNav" aria-controls="navbarTopNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarTopNav">
+        
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item dropdown">
+                {% if user.is_superuser or user.is_staff %}
+                <div class="nav-link">
+                    <button class="btn btn-light nav-link dropdown-toggle" type="button" id="newSprintDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        + New Sprint
+                    </button>
+                    <div class="dropdown-menu p-4" aria-labelledby="newSprintDropdown">
+                        <form method="post" action="{% url 'create_sprint' %}">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="sprintName">Sprint Name</label>
+                                <input type="text" class="form-control" id="sprintName" name="sprint_name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="startDate">Start Date</label>
+                                <input type="date" class="form-control" id="startDate" name="start_date" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="endDate">End Date</label>
+                                <input type="date" class="form-control" id="endDate" name="end_date" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Create Sprint</button>
+                        </form>
+                    </div>
+                </div>
+                {% endif %}
+
+            </li>
+        </ul>
+
+        <ul class="navbar-nav ml-auto">
+
+            <li class="nav-item">
+                <div class="nav-link">
+                    <button class="btn btn-light dropdown-toggle" type="button" id="sortDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-sort" aria-hidden="true"></i>   Sort by
+                    </button> 
+                    <div class="dropdown">
+                        <div class="dropdown-menu" aria-labelledby="sortDropdown">
+                            <a class="dropdown-item" href="?sort_by=sprint_name">Name</a>
+                            <a class="dropdown-item" href="?sort_by=start_date">Start Date</a>
+                            <a class="dropdown-item" href="?sort_by=end_date">End Date</a>
+                        </div>
+                    </div>                    
+                </div>
+            </li>
+            
+            <li class="nav-item">
+                <div class="nav-link">
+                    <button class="btn btn-light dropdown-toggle" type="button" id="filterDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-filter" aria-hidden="true"></i>   Filter by
+                    </button>
+                    <div class="dropdown">
+                        <div class="dropdown-menu" aria-labelledby="filterDropdown">
+                            <form method="get" action="{% url 'sprint_dashboard' %}">
+                                <label class="dropdown-item">
+                                    <input type="checkbox" name="status" value="Inactive" class="filter-checkbox" {% if 'Inactive' in status_filter %}checked{% endif %}> Not started
+                                </label>
+                                <label class="dropdown-item">
+                                    <input type="checkbox" name="status" value="Active" class="filter-checkbox" {% if 'Active' in status_filter %}checked{% endif %}> Active
+                                </label>
+                                <label class="dropdown-item">
+                                    <input type="checkbox" name="status" value="Completed" class="filter-checkbox" {% if 'Completed' in status_filter %}checked{% endif %}> Completed
+                                </label>
+                                <div class="dropdown-divider"></div>
+                                <button type="submit" class="btn btn-primary dropdown-item">Apply Filters</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            
+        </ul>
+
+    </div>
+</nav>
+
+<!-- Button to manually toggle date -->
+<div style="padding-left: 20px;">
+    <br>
+    <p>Current Date: {{ current_date }}</p>
+    <!-- Form to select date -->
+    <form method="post" action="{% url 'toggle_sprint_date' %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="selected_date">Select Date:
+                <input type="date" class="form-control" id="selected_date" name="selected_date" value="{{ current_date }}">
+            </label>
+        </div>
+        <button type="submit" class="btn btn-primary">Update Date</button>
+    </form>
+</div>
+
+<!-- Sprint Dashboard -->
+{% if user.is_authenticated %}
+<div class="container sprint-dashboard">
+
+        <table class="table">
+            <thead>
+                <tr>    
+                    <th scope="col" class="p-3">Sprint Name</th>
+                    <th scope="col" class="text-center p-3">Status</th>
+                    <th scope="col" class="text-center p-3">Start Date</th>
+                    <th scope="col" class="text-center p-3">End Date</th>
+                    <th scope="col" class="text-center p-3"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for sprint in sprints %}
+                    <tr class="clickable-row" data-status="{{ sprint.status }}" data-sprint-id="{{ sprint.id }}">
+                    <td class="p-3">{{ sprint.sprint_name }}</td>
+                    <!-- Admin: Clickable Status -->
+                    {% if user.is_superuser or user.is_staff %}
+                    <td class="text-center p-3">
+                        {% if sprint.status == "Active" %}
+                        <button class="btn btn-success status-btn" data-status="Active" data-sprint-id="{{ sprint.id }}">Active</button>
+                        {% elif sprint.status == "Inactive" %}
+                        <button class="btn btn-danger status-btn" data-status="Inactive" data-sprint-id="{{ sprint.id }}">Not Started</button>
+                        {% elif sprint.status == "Completed" %}
+                        <button class="btn btn-secondary status-btn" data-status="Completed" data-sprint-id="{{ sprint.id }}">Completed</button>
+                        {% endif %}
+                    </td>
+
+                    {% else %}
+                    <!-- Non-Admin: Non-Clickable Status -->
+                    <td class="text-center p-3">
+                        {% if sprint.status == "Active" %}
+                        <button class="btn btn-success" data-status="Active" data-sprint-id="{{ sprint.id }}">Active</button>
+                        {% elif sprint.status == "Inactive" %}
+                        <button class="btn btn-danger" data-status="Inactive" data-sprint-id="{{ sprint.id }}">Not Started</button>
+                        {% elif sprint.status == "Completed" %}
+                        <button class="btn btn-secondary" data-status="Completed" data-sprint-id="{{ sprint.id }}">Completed</button>
+                        {% endif %}
+                    </td>
+                    {% endif %}
+
+                    <td class="text-center p-3">{{ sprint.start_date }}</td>
+                    <td class="text-center p-3">{{ sprint.end_date }}</td>
+
+                    {% if user.is_superuser or user.is_staff %}
+                    <td class="text-center p-3">                   
+                        <a href="{% url 'edit_sprint' sprint.id %}" class="text-secondary"> 
+                            <i class="fas fa-pencil-alt"></i>
+                        </a>
+                        <button type="button" onclick="deleteSprint('{{ sprint.id }}', event);" class="btn btn-delete">
+                            <i class="fas fa-times"></i>
+                        </button>
+                        </a>
+                    </td>                    
+                    {% endif %}
+
+
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+</div>
+{% else %}
+<h3>Login <a href="/login">Here</a></h3>
+{% endif %}
+
+{% block extra_js %}
+<script src="{% static 'js/sprint_dashboard.js' %}"></script>
+{% endblock %}
+
+{% endblock %}

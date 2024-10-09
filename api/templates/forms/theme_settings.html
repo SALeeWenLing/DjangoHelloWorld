@@ -1,0 +1,80 @@
+<!-- create_task.html -->
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}QuickNote • Settings{% endblock %}
+
+{% block pagetitle %}Theme Settings{% endblock%}
+
+{% block content %}
+
+<div class="container mt-5">
+    <form method="post">
+        {% csrf_token %}
+
+        <!-- OG IMPLEMENTATION FOR THEME (PULLED, DELETE WHEN MODE IMPLEMENTATION IS DONE) -->
+        {% comment %} {% for field in form %}
+            <div class="form-group row custom-row-spacing">
+                <label for="{{ field.id_for_label }}" class="col-sm-3 col-form-label align-self-start">{{ field.label }}</label>
+                <div class="col-sm-9">
+                    {% if field.widget.attrs.class == 'form-check-input' %}
+                            {{ field }}
+                    {% else %}
+                        {{ field }}
+                    {% endif %}
+                    {% if field.help_text %}
+                        <small class="form-text text-muted">{{ field.help_text }}</small>
+                    {% endif %}
+                    {% for error in field.errors %}
+                        <div class="invalid-feedback">{{ error }}</div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %} {% endcomment %}
+
+
+
+        <!-- Theme Settings Form -->
+        {% for field in form %}
+        <div class="form-group row custom-row-spacing">
+            <label for="{{ field.id_for_label }}" class="col-sm-3 col-form-label align-self-start">{{ field.label }}</label>
+            <div class="col-sm-9">
+                {{ field }}
+                {% if field.help_text %}
+                    <small class="form-text text-muted">{{ field.help_text }}</small>
+                {% endif %}
+                {% for error in field.errors %}
+                    <div class="invalid-feedback">{{ error }}</div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+
+        <!-- Mode Settings Form -->
+        {% for field in mode_form %}
+        <div class="form-group row custom-row-spacing">
+            <label for="{{ field.id_for_label }}" class="col-sm-3 col-form-label align-self-start">{{ field.label }}</label>
+            <div class="col-sm-9">
+                {{ field }}
+                {% if field.help_text %}
+                    <small class="form-text text-muted">{{ field.help_text }}</small>
+                {% endif %}
+                {% for error in field.errors %}
+                    <div class="invalid-feedback">{{ error }}</div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+
+        <!-- Create Task / Save / Cancel Buttons -->
+        <div class="form-group row mt-4 custom-button-spacing text-right">
+            <div class="col-sm-12">
+                <button type="submit" class="btn button-deadpool-red">{% if action == "create" %}Create Task{% else %}Save{% endif %}</button>
+                <button type="button" class="btn btn-secondary" onclick="window.history.back()">Cancel</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+{% endblock %}

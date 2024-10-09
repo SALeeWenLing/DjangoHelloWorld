@@ -1,0 +1,103 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}QuickNote • Sprint{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+{% endblock %}
+
+<!-- Side navigation -->
+{% block sidenav_class %}
+    {% if theme_settings %}
+        {% if theme_settings.theme == 'bubblegum' %}
+            sidenav-bubblegum
+        {% elif theme_settings.theme == 'ocean' %}
+            sidenav-ocean
+        {% elif theme_settings.theme == 'nature' %}
+            sidenav-nature
+        {% else %}
+            sidenav-wolverine
+        {% endif %}
+    {% else %}
+    sidenav-wolverine
+    {% endif %}
+{% endblock %}
+<!-- Banner Image -->
+{% block header_image %}
+    {% if theme_settings %}
+        {% if theme_settings.theme == 'bubblegum' %}
+            <img src="{% static 'images/bubblegum.png' %}" height="250" width="auto" class="banner-image">  
+        {% elif theme_settings.theme == 'ocean' %}
+            <img src="{% static 'images/ocean.png' %}" height="250" width="auto" class="banner-image">   
+        {% elif theme_settings.theme == 'nature' %}
+            <img src="{% static 'images/nature.png' %}" height="250" width="auto" class="banner-image">
+        {% else %}
+            <img src="{% static 'images/banner_wolverine.png' %}" height="250" width="auto" class="banner-image">
+        {% endif %}
+    {% else %}
+    <img src="{% static 'images/banner_wolverine.png' %}" height="250" width="auto" class="banner-image">
+    {% endif %}
+{% endblock %}
+
+{% block pagetitle %}
+<header>
+    <div class="header-content">
+        <h1>{{ sprint.sprint_name }}</h1>
+        {% block sprint_status%}
+        <p class="sprint-status">Status: {{ sprint.status }}</p>
+        {% endblock %}
+    </div>
+</header>
+{% endblock %}
+
+{% block content %}
+{% comment %} <p>Status: {{ sprint.status }}</p> {% endcomment %}
+    <!-- Top navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTopNav" aria-controls="navbarTopNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarTopNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <div class="nav-link">
+                        <button class="btn btn-light dropdown-toggle" type="button" id="sortDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-sort" aria-hidden="true"></i>   Sort by
+                        </button> 
+                        <div class="dropdown">
+                            <div class="dropdown-menu" aria-labelledby="sortDropdown">
+                                <a class="dropdown-item" href="?sort_by=oldest_date">Date of Creation (Oldest to Newest)</a>
+                                <a class="dropdown-item" href="?sort_by=newest_date">Date of Creation (Newest to Oldest)</a>
+                                <a class="dropdown-item" href="?sort_by=priority_low">Priority (Low to High)</a>
+                                <a class="dropdown-item" href="?sort_by=priority_high">Priority (High to Low)</a>
+                            </div>
+                        </div>                    
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <div class="nav-link">
+                        <button class="btn btn-light dropdown-toggle" type="button" id="filterDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-filter" aria-hidden="true"></i>   Filter by
+                        </button>
+                        <div class="dropdown">
+                            <div class="dropdown-menu" aria-labelledby="filterDropdown">
+                                <label class="dropdown-item"><input type="checkbox" value="API" class="filter-checkbox"> API</label>
+                                <label class="dropdown-item"><input type="checkbox" value="Frontend" class="filter-checkbox"> Frontend</label>
+                                <label class="dropdown-item"><input type="checkbox" value="Backend" class="filter-checkbox"> Backend</label>
+                                <label class="dropdown-item"><input type="checkbox" value="Testing" class="filter-checkbox"> Testing</label>
+                                <div class="dropdown-divider"></div>
+                                <button class="btn btn-primary dropdown-item" onclick="filterTasks()">Apply Filters</button>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    {% block sprint_content %}{% endblock %}
+{% endblock %}
+
+{% block extra_js %}
+{% endblock %}
