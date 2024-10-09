@@ -1,0 +1,26 @@
+/* static/css/sprint_dashboard.css */
+.sprint-dashboard .table{
+    width: 1020px; /* Set the width of the sprint dashboard */
+    margin-top: 20px; /* Add some space above the table */
+    /* For testing purposes */
+    /* background-color: aquamarine; */
+}
+
+.sprint-dashboard .btn {
+    width: 110px; /* Set a fixed width for the status buttons */
+    text-align: center; /* Center the text inside the button */
+}
+
+.sprint-dashboard .btn:hover {
+    cursor: pointer; /* Change cursor to pointer on hover */
+}
+
+.sprint-dashboard .p-3{
+    cursor: pointer; /* Change cursor to pointer on hover */
+    color: #0f0f0f;
+}
+
+.sprint-dashboard .clickable-row:hover {
+    background-color: rgba(0, 0, 0, 0.1); /* Make the table cell background dimmer on hover */
+}
+

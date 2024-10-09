@@ -1,0 +1,103 @@
+body {
+    background-color: #2e2e2e !important; /* Dark gray background */
+    color: white !important; /* White text color */
+}
+
+.navbar, .sidebar {
+    background-color: #3a3a3a !important; /* Darker gray for navigation areas */
+}
+
+/* Sidenav: Links (on hover) */
+.sidenav a:hover {
+    background-color: #6a6a6a !important;
+}
+
+.auth-links .btn {
+    color: white !important; /* White text color */
+    border:  none !important; 
+}
+
+/* Forms */
+.form-control {
+    background-color: #4a4a4a !important; /* Darker gray background */
+    color: white !important; /* White text color */
+}
+
+/* Change background color of all dropdown menus */
+.dropdown-menu {
+    background-color: #4a4a4a !important; /* Change this to your desired background color */
+    border: 1px solid white !important; /* Optional: Add border */
+    color: white !important; /* Ensure text color is white */
+}
+
+/* Change background color of all dropdown items */
+.dropdown-item {
+    background-color: #4a4a4a !important; /* Change this to your desired background color */
+    color: white !important; /* Ensure text color is white */
+}
+
+/* Change background color of dropdown items on hover */
+.dropdown-item:hover {
+    background-color: #555 !important; /* Change this to your desired hover background color */
+    color: white !important; /* Ensure text color is white */
+}
+
+a, .btn-secondary {
+    color: white !important; /* White text for links and buttons */
+}
+
+/* Top navigation bar in dark mode */
+.navbar.navbar-light.bg-light {
+    background-color: #4a4a4a !important; /* Darker gray background */
+    color: white !important; /* White text color */
+}
+
+.navbar .btn-light {
+    background-color: transparent !important; 
+    color: white !important; /* White text color for links and buttons */
+    border: none !important; /* Remove default border */
+}
+
+
+/* Add styles for table elements */
+.table th, .table td {
+    color: white !important; /* White text color for table headers and cells */
+}
+
+/* Table header */
+.table thead {
+    background-color: #4a4a4a !important; /* Dark gray background */
+}
+
+/* Status header styles for dark mode */
+.task-status-header {
+    color: white !important; /* White text color for task status headers */
+}
+
+/* Task card styles for dark mode */
+.task-card {
+    background-color: #3a3a3a !important; /* Darker background for task cards */
+    color: white !important; /* White text color for task cards */
+    border: 1px solid #555 !important; /* Darker border for task cards */
+}
+
+.task-card h4 {
+    color: white !important; /* White text color for task card headers */
+}
+
+.task-card .task-content {
+    color: white !important; /* White text color for task card content */
+}
+
+
+/* Style for the edit / delete button */
+.text-secondary i {
+    color: white !important; /* Light gray color for links */
+}
+
+.btn-delete {
+    background: none !important; /* Remove default button background */
+    border: none; /* Remove default button border */
+    color: white !important; /* White text color for buttons */
+}
+

@@ -1,0 +1,249 @@
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1000; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.5); /* Black w/ opacity */
+}
+
+.modal-content {
+    background-color: #f44336;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+    color: rgb(20, 19, 19);
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.modal-close {
+    color: white;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.modal-close:hover,
+.modal-close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Header */
+.header {
+    position: absolute;
+    width: 1500px;
+    padding: 0; /* Remove any default padding */
+    margin: 0;  /* Remove any default margin */
+}
+
+.header-content {
+    display: flex; /* Use flexbox for alignment */
+    align-items: baseline;
+    justify-content: space-between;
+    width: 1050px;
+    /* background-color: #ffb400; */
+}
+
+.header-content h1 {
+    margin: 0;
+}
+
+.sprint-status {
+    margin: 0;
+    font-size: 20px; /* Adjust the size as needed */
+    text-align: center;
+    /* background-color: aqua; */
+}
+
+.header_text {
+    position: absolute;
+    top: 50%; /* Center vertically */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white; /* Text color for the header */
+    text-shadow: 3px 3px 5px #000000; /* Add shadow to the text */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    font-weight: bold;
+    margin: 0; /* Remove any default margin */
+    padding: 0; /* Remove any default padding */
+    line-height: 1;
+    
+}
+
+/* Standardised banner images */
+.banner-image {
+    height: 250px; /* Set a fixed height */
+    width: 100%; /* Ensure the image takes the full width */
+    object-fit: cover; /* Crop the image to fit the height */
+    object-position: center; /* Center the image within the container */
+}
+
+/* Login / Logout links */
+.auth-links {
+    justify-content: flex-end;
+
+    position: absolute;
+    top: 280px; /* Distance from top of page*/
+    left: 115px; /* Distance from left of page*/
+}
+
+.auth-links form, .auth-links a {
+    display: inline-block;
+    margin-left: 10px;
+}
+
+
+/* Sidenav */
+.sidenav {
+    width: 300px;
+    position: absolute; /* Change position to fixed */
+    top: 360px; /* Position the sidenav below the header */
+    left: 50px;
+    background-color: #8b2323; /* Background color for the sidenav */
+    box-shadow: 5px 5px 10px grey /* Add shadow to the sidenav */;
+    padding-top: 20px;
+    height: calc(1000px - 300px); /* Extend to the bottom of the page, accounting for the header height */
+    overflow-y: auto; /* Add scroll if content overflows */
+}
+
+/* Default: Styles for sidenav */
+.sidenav-deadpool {
+    background-color: #8b2323; /* Deadpool red sidenav background */
+}
+
+.sidenav-wolverine {
+    background-color: #ffb400; /* Light yellow sidenav background */
+}
+
+/* Bubblegum: Styles for sidenav */
+.sidenav-bubblegum {
+    background-color: #ffadb1; /* Pink sidenav background */
+}
+
+/* Ocean: Styles for sidenav */
+.sidenav-ocean {
+    background-color: #006994; /* Blue sidenav background */
+}
+
+/* Nature: Styles for sidenav */
+.sidenav-nature {
+    background-color: #436B0C; /* Green sidenav background */
+}
+
+
+
+/* Sidenav: "Content" header */
+.sidenav h3 {
+    padding-left: 30px; /* Shift the heading to the right */
+    font-size: 24px; /* Adjust the font size */
+    color: white; /* Text color */
+    text-shadow: 1px 1px 5px #000000; /* Add shadow to the text */
+    margin-bottom: 10px; /* Add some space below the heading */
+}
+
+/* Sidenav: Links */
+.sidenav a {
+    padding: 8px 16px;
+    text-decoration: none;
+    font-size: 18px;
+    color: white; /* Text color */
+    text-shadow: None; /* Add shadow to the text */
+    display: block;
+    padding-left: 60px; 
+}
+
+/* Sidenav: Links (on hover) */
+.sidenav a:hover {
+    background-color: #ffffff;
+    color: black;
+    text-shadow: None; /* Add shadow to the text */
+    text-decoration: none;
+}
+
+/* Sidenav: Divider line */
+.sidenav-divider {
+    margin: 0 30px; /* Adjust the margin to start away from the edge */
+    margin-top: 0; /* Remove the default margin */
+    margin-bottom: 10px; /* Add space below the divider */
+    padding: 10px;
+}        
+
+
+/* Main content */
+.main {
+    margin-left: 400px; /* Adjust margin to account for the width of the sidenav */
+    padding: 35px 10px;
+    position: absolute;
+    top: 260px; /* Position the sidenav below the header */
+}
+
+/* Main content: Line under content header */
+.mt-0{
+    width: 1050px;
+}
+
+/* Main content: Navigation New Task, Sort/Filter by*/
+.navbar{ 
+    width: 1050px; /* Set the width to match table width*/
+    height: 45px; /* Set the height of the navbar */
+}
+
+/* Change background color of the button containing the fa-cog icon */
+.auth-links .btn-light {
+    background-color: transparent; /* Change this to your desired color */
+}
+
+.row {
+    width: auto; /* Adjusted table width to fit the content */
+}
+
+.product-backlog-page .row {
+    width: max-content; /* Adjusted table width to fit the content */
+    margin-top: 20px; /* Gap between top nav and task cards */
+}
+
+.active-sprint-page .row {
+    width: max-content; /* Adjusted table width to fit the content */
+    margin-top: 20px; /* Gap between top nav and task cards */
+}
+
+/* Table header */
+.table thead {
+    background-color: #f0f0f0; /* Dark gray background */
+}
+
+
+/* Modify checkbox field in Create / Update Task forms */
+
+.form-check-input {
+    padding-left: 45px;
+    /* background-color: aquamarine; */
+}
+
+.custom-button-spacing {
+    padding-top: 100px; /* Add 200px of space before the buttons */
+}
+
+.button-deadpool-red {
+    background-color: #8b2323; /* Deadpool red background */
+    color: white; /* Ensure text is readable */
+    border: none; /* Remove default border */
+}
+
+.button-deadpool-red:hover {
+    background-color: #a52a2a; /* Slightly lighter red for hover effect */
+}
+
+.mt-5, .my-5 {
+    margin-top: 100px !important;
+}

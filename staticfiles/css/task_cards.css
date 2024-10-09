@@ -1,0 +1,223 @@
+/* Headers: "Not Started", "In Progress", "Completed" */
+.task-status-header {
+    font-size: 1.5em; /* Increase font size */
+    font-weight: bold; /* Make the text bold */
+    margin-bottom: 20px; /* Add some space below the header */
+    margin-left: 5px; /* Add some space to the left */
+    color: #333; /* Set text color */
+    padding: 10px; /* Add padding */
+    white-space: nowrap; /* Prevent text from wrapping */
+}
+
+/* "Not Started", "In Progress", "Completed" Column size */
+.custom-column {
+    padding-left: 0px; /* Adjust as needed */
+    padding-right: 0px; /* Adjust as needed */
+    width: 350px;
+}
+
+/* Task card turns grey on hover */
+.list-group-item:hover {
+    background-color: #f0f0f0; 
+    cursor: pointer;
+    
+}
+
+/* 3x3 Card Layout (Completed / Incative views) */
+.wide-cards-container {
+    width: 1050px;
+    margin-left: 15px;
+    row-gap: 0px;
+    column-gap: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    /* background-color: aquamarine; */
+}
+
+/* Inactive Sprint table */
+.inactive_sprint {
+    margin-top: 20px; /* Add space above the table */
+}
+/* Product Backlog / Sprint Backlog table header */
+.inactive_sprint th {
+    font-size: 1.5em; /* Adjust the size as needed */
+    font-weight: bold; /* Make the text bold */
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+    border-top: 1px solid #ddd;;
+    border-bottom: 2px solid #ddd;
+    border-right: 1px solid #ddd;
+}
+/* Removes the right border from the last cell to avoid double borders */
+.inactive_sprint th:last-child {
+    border-right: none;
+}
+
+/* Adds right border to the table rows */
+.inactive_sprint td {
+    border-right: 1px solid #ddd;
+}
+
+.inactive_sprint td:last-child {
+    border-right: none;
+}
+
+/* Remove tr borders from all items within .col-md-6 */
+.col-md-6 tr * {
+    border: none !important;
+}
+
+
+/* Content within Task Card */
+.task-card {
+    font-size: 12px; /* Adjust the size as needed */
+    width: 300px; /* Set a fixed width */
+    height: fit-content; /* Make the task card the size of its contents*/
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    overflow: hidden; /* Hide overflow content */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Ensure the buttons are at the bottom */
+    padding: 10px; /* Add some padding */
+    margin: 10px; /* Adding space around each task card */
+}
+
+.task-card h4 {
+    font-size: 16px; /* Adjust the size as needed */
+    margin-top: 15px; /* Add some space above the heading */
+    margin-bottom: 10px; /* Add some space below the heading */
+
+    overflow: hidden; /* Hide overflow */
+    text-overflow: ellipsis; /* Add ellipsis (...) */
+}
+
+.task-card .task-content {
+    white-space: nowrap; /* Prevent text from wrapping */
+    overflow: hidden; /* Hide overflow */
+    text-overflow: ellipsis; /* Add ellipsis (...) */
+}
+
+/* Label cells: "Story point:", "Priority:", "Development Tag:"*/
+.label-cell {
+    width: 150px; /* Set a specific width for label cells */
+    font-weight: bold; /* Make the text bold */
+
+}
+
+
+/* Style for the delete/add button */
+.btn-delete {
+    background: none; /* Remove default button background */
+    border: none; /* Remove default button border */
+    color: #9f9f9f; 
+}
+
+/* New styles for completed column */
+.completed-cards .task-card {
+    background-color: #f0f0f0; /* Light grey background */
+    color: #a0a0a0; /* Grey text color */
+    border: 1px solid #d0d0d0; /* Light grey border */
+}
+
+/* Grey priority tags for completed tasks */
+.completed-cards .priority {
+    background-color: #d0d0d0 !important; /* Light grey background */
+    color: #a0a0a0 !important; /* Grey text color */
+}
+
+/* priority */
+.low-priority {
+    background-color: rgb(106, 190, 106);
+    display: inline-block;
+    padding: 1px 5px !important;
+    border-radius: 3px;
+    color: black;
+}
+
+.medium-priority {
+    background-color: rgb(249, 249, 64);
+    display: inline-block;
+    padding: 1px 5px !important;
+    border-radius: 3px;
+    color: black;
+}
+
+.important-priority {
+    background-color: rgb(237, 197, 124);
+    display: inline-block;
+    padding: 1px 5px !important;
+    border-radius: 3px;
+    color: black;
+}
+
+.urgent-priority {
+    background-color: rgb(230, 129, 129);
+    display: inline-block;
+    padding: 1px 5px !important;
+    border-radius: 3px;
+    color: black;
+}
+
+
+
+/* The edit history sidebar menu */
+.sidebar {
+    height: 100%; /* 100% Full-height */
+    width: 0; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Stay on top */
+    top: 0;
+    right: 0;
+    background-color: #f0f0f0;
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 60px; /* Place content 60px from the top */
+    transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
+}
+
+/* Contents in sidebar */
+.sidebar a {
+    padding: 8px 8px 8px 32px;
+    font-size: 15px;
+    color: #656565;
+    display: block;
+    transition: 0.3s;
+  }
+
+/* When you mouse over the history contents, change their color */
+.sidebar a:hover {
+    color: #000000; /* Optional: change text color on hover */  
+    background-color:#d1d1d1 ;
+}
+
+/* Position and style the close button (top right corner) */
+.sidebar .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 20px;
+    margin-left: 50px;
+    border: none;
+    cursor: pointer;
+}
+
+/* Add hover effect for close button */
+.sidebar .closebtn:hover {
+    color: #da5f5f;
+}
+
+#taskHistoryPanel {
+    padding: 10px; /* Add padding to the panel for better layout */
+}
+
+.history-item {
+    display: block; /* Make it a block element to avoid inline issues */
+    margin-bottom: 10px; /* Space between history items */
+    color: #4e4e4e;
+    text-decoration: none; /* Remove underline */
+}
+
+.history-item:hover {
+    color: #060606; /* Change text color on hover */
+    background-color: #d1d1d1; /* Background color on hover */
+}

@@ -15,23 +15,40 @@ import dj_database_url
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+# BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
+# Database
+# https://docs.djangoproject.com/en/5.1/ref/settings/#databases
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         # 'NAME': BASE_DIR / 'db.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
+
+##### LOCAL HOSTING #####
 # SECRET_KEY = 'django-insecure-m#9y68gdx@)%^z96r$z3hd&&15c@_ncnc$8nt&u8(6r3xszcmw'
-SECRET_KEY = os.environ.get('SECRET_KEY')
-
-
 # DEBUG = True
 # ALLOWED_HOSTS = []
+#########################
 
+##### LIVE HOSTING #####
+DATABASES = {
+    'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))
+}
+SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = os.environ.get('DEBUG', 'False').lower == 'True'
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS').split(' ')
- 
+# database_url = os.environ.get('DATABASE_URL')
+# DATABASES['default'] = dj_database_url.parse(database_url)
+#########################
 
 # Application definition
 
@@ -66,7 +83,7 @@ ROOT_URLCONF = 'quicknote.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -82,21 +99,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'quicknote.wsgi.application'
-
-
-# Database
-# https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
-database_url = os.environ.get('DATABASE_URL')
-DATABASES['default'] = dj_database_url.parse(database_url)
-
 
 
 # Password validation
@@ -133,7 +135,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
