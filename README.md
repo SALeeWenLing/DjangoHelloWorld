@@ -23,3 +23,4 @@ pip install djangorestframework
 pip install crispy-bootstrap4
 pip install django-simple-history
 pip install whitenoise
+pip install python-dotenv
