@@ -56,7 +56,7 @@ DEBUG = os.environ.get('DEBUG', 'False').lower == 'True'
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS').split(' ')
 # Render PostgreSQL Database (Live)
 DATABASES = {
-    'default': dj_database_url.parse(env('DATABASE_URL'))
+    'default': dj_database_url.parse('postgresql://quicknote_db_7228_user:pyJ96ACCiX79Ku9zRAFuBiaL29nCQi4C@dpg-cs3ac3hu0jms7397ofog-a.singapore-postgres.render.com/quicknote_db_7228')
 }
 
 
