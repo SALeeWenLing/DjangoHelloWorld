@@ -18,9 +18,12 @@ source venv/bin/activate
 
 # Installs
 pip install django
+pip install django-environ
 pip install django-crispy-forms
 pip install djangorestframework
 pip install crispy-bootstrap4
 pip install django-simple-history
 pip install whitenoise
 pip install python-dotenv
+pip install psycopg2-binary
+pip install dj-database-url

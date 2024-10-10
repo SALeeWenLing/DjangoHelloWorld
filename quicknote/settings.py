@@ -19,6 +19,12 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
+import environ
+
+env = environ.Env()
+
+environ.Env.read_env()
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -26,7 +32,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+ 
 ##### LOCAL HOSTING #####
+
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.sqlite3',
@@ -34,21 +42,24 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 #         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 #     }
 # }
+
 # SECRET_KEY = 'django-insecure-m#9y68gdx@)%^z96r$z3hd&&15c@_ncnc$8nt&u8(6r3xszcmw'
 # DEBUG = True
 # ALLOWED_HOSTS = []
-#########################
+
+
 
 ##### LIVE HOSTING #####
-DATABASES = {
-    'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
-}
+''''''
 SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = os.environ.get('DEBUG', 'False').lower == 'True'
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS').split(' ')
-# database_url = os.environ.get('DATABASE_URL')
-# DATABASES['default'] = dj_database_url.parse(database_url)
-#########################
+# Render PostgreSQL Database (Live)
+DATABASES = {
+    'default': dj_database_url.parse(env('DATABASE_URL'))
+}
+
+
 
 # Application definition
 
@@ -136,7 +147,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = '/static/'
-MEDIA_URL = '/static/images/'
+# MEDIA_URL = '/static/images/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
